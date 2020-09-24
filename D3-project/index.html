@@ -1,0 +1,100 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Circular Heat Map</title>
+
+<!-- JavaScript Libraries //-->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+<!-- CSS Style //-->
+<link href="style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="main.js"></script>
+</head>
+
+<body>
+  <button onclick="callChart('a')">Data 01</button>
+  <button onclick="callChart('b')">Data 02</button>
+  <button onclick="callChart('c')">Data 03</button>
+    <div style="margin-left:50px;"  id="chart">
+    </div>
+</body>
+<script>
+
+    var radial_labels = ["A","B","C","D","E","F","G","H","I","J"];
+    var segment_labels = ['s01', 's02', 's03', 's04', 's05', 's06', 's07', 's08', 's09', 's10','s11', 's12','s13','s14','s15','s16','s17','s18','s19','s20','s21','s22','s23','s24','s25','s26','s27','s28','s29','s30'];
+
+//slow this
+[1,2,3].forEach(
+  function(d,i) {
+      d3.select('#chart').html("");
+
+      d3.csv("../data/sample-data-"+d+".csv")
+        .row(function(d){ return {slot: d.slot, row:d.row, density:Number(d.density)}; })
+        .get(function(error,data){
+
+            console.log(data);
+
+        loadCircularHeatMap(data,"#chart",radial_labels, segment_labels);
+
+
+          });
+        d3.select('#chart').html("");
+        sleep(3000);
+  }
+);
+
+function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+   }
+  function callChart(chart) {
+      switch (chart) {
+        case 'a':   d3.select('#chart').html("")
+                    d3.csv("../data/sample-data-1.csv")
+                        .row(function(d){ return {slot: d.slot, row:d.row, density:Number(d.density)}; })
+                        .get(function(error,data){
+
+                          console.log(data);
+
+                          loadCircularHeatMap(data,"#chart",radial_labels, segment_labels);
+
+                          })
+                            break;
+        case 'b':   d3.select('#chart').html("")
+                    d3.csv("../data/sample-data-2.csv")
+                      .row(function(d){ return {slot: d.slot, row:d.row, density:Number(d.density)}; })
+                      .get(function(error,data1){
+
+                          console.log(data1);
+
+                          loadCircularHeatMap(data1,"#chart",radial_labels, segment_labels);
+                          })
+                            break;
+        case 'c':   d3.select('#chart').html("")
+                    d3.csv("../data/sample-data-3.csv")
+                      .row(function(d){ return {slot: d.slot, row:d.row, density:Number(d.density)}; })
+                      .get(function(error,data2){
+
+                        console.log(data2);
+
+                        loadCircularHeatMap(data2,"#chart",radial_labels, segment_labels);
+                        })
+
+          break;
+        default: alert("no click");
+
+      }
+    }
+
+
+
+
+
+
+
+//loadCircularHeatMap(inputData,"#chart",radial_labels, segment_labels);
+
+
+</script>
+</html>
